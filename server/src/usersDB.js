@@ -32,61 +32,38 @@ module.exports = (mongoose) => {
 //     }
   
     async function bootstrap(count = 10) {
-    //   let l = (await getUsers()).length;
-    //   console.log("Question collection size from bootstrap():", l);
+      let l = (await getUsers()).length;
+      console.log("Question collection size from bootstrap():", l);
   
-    //   if (l === 0) {
-    //     let promises = [];
-    //     let initQuestions= [
-    //       {
-    //       username:"krdo", 
-    //       password: "123"
-    //       }, 
-    //       {
-    //       title:"What's going on with all the UFO articles", 
-    //       topic: topics[1], 
-    //       author: "thetruthisoutthere", 
-    //       date: new Date('2021-01-09'),
-    //       votes: 14,
-    //       comments:[{comment: "even Obama admitted it", author:"area51", date: new Date("2020-01-10")}] 
-    //       }, 
-    //         {
-    //           title:"Hehe check out this funny video", 
-    //       topic: topics[2], 
-    //       author: "notarickroll", 
-    //       date: new Date('2021-03-23'),
-    //       votes: 4,
-    //       comments:[{comment: "nice", author:"nice123", date: new Date("2020-03-24")}] 
-    //         }, 
-    //         {
-    //           title:"Any updates on Tokyo 2021", 
-    //           topic: topics[3], 
-    //           author: "sportsman", 
-    //           date: new Date('2021-03-23'),
-    //           votes: 2,
-    //           comments:[{comment: "no idea", author:"nice123", date: new Date("2020-03-24")}] 
-    //         }
-    //         ]
-    //     for (let i = 0; i < initQuestions.length; i++) {
-    //       let newPost = new userModel(initQuestions[i]);
-    //       console.log(i);
-    //       promises.push(newPost.save());
-    //     }
-    //     let tv = new topicModel({title: topics[0]});
-    //     tv.save();
-    //     let news = new topicModel({title: topics[1]});
-    //     news.save();
-    //     let funny = new topicModel({title: topics[2]});
-    //     funny.save();
-    //     let sports = new topicModel({title: topics[3]});
-    //     sports.save();
-    //     return Promise.all(promises);
-    //   }
+      if (l === 0) {
+        let promises = [];
+        let initQuestions= [
+          {
+          username:"krdo", 
+          password: "123"
+          }, 
+          {
+            username:"admin", 
+            password: "456"
+          }, 
+            {
+                username:"user3", 
+                password: "789"
+            }
+            ]
+        for (let i = 0; i < initQuestions.length; i++) {
+          let newUser = new userModel(initQuestions[i]);
+          console.log(i);
+          promises.push(newUser.save());
+        }
+       
+        return Promise.all(promises);
+      }
     
     }
   
     return {
-      getPosts: getUsers,
+      getUsers: getUsers,
       bootstrap
     }
   }

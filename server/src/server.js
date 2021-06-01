@@ -20,6 +20,9 @@ async function createServer() {
   // Create data
   const postsDB = require('./postsDB')(mongoose);
   await postsDB.bootstrap();
+
+  const usersDB = require('./usersDB')(mongoose);
+  await usersDB.bootstrap();
   
   // Require routes
   //const routes = require("./routes")(questionDB); // Inject mongoose into routes module
@@ -38,6 +41,7 @@ async function createServer() {
 const openPaths = [
   // Open "/api/users/authenticate" for POST requests
   { url: "/api/users/authenticate", methods: ["POST"] },
+  { url: "/api/users/", methods: ["GET"] },
 
   // Open everything that doesn't begin with "/api"
   /^(?!\/api).*/gim,
@@ -64,7 +68,7 @@ app.use((err, req, res, next) => {
 });
 
   // Add routes
-  const userRouter = require("./userRouter")(secret);
+  const userRouter = require("./userRouter")(secret, usersDB);
 const postRoutes = require("./routes")(postsDB);
   app.use("/api/users", userRouter);
   app.use("/api/posts", postRoutes);

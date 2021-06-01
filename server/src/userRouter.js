@@ -24,21 +24,28 @@ users.forEach(async user => {
 
   user.hash = hashedPassword; // Storing the hash+salt on the user object.
   delete user.password; // Let's remove the clear text password as well
-  console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
+  //console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
 });
 
 // Create the routes and export the router
-module.exports = secret => {
-
+module.exports = (secret, usersDB) => {
+console.log(usersDB);
   router.post('/', (req, res) => {
     // TODO: Implement user account creation
     res.status(501).json({ msg: "create new user not implemented" });
   });
 
+
+
+  //TESTING
   router.get('/', async (req, res) => {
-    //const posts = await postsDB.getPosts(); 
-    res.json(posts);
+    const users = await usersDB.getUsers(); 
+    res.json(users);
   });
+  //TESTING
+
+
+
 
   router.patch('/', (req, res) => {
     // TODO: Implement user update (change password, etc).
