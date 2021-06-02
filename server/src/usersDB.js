@@ -1,10 +1,12 @@
 module.exports = (mongoose) => {
+    const bcrypt = require('bcryptjs');  // Used for hashing passwords!
+
     const userSchema = new mongoose.Schema({
       username: String,
-      password: String,
+      hash: String,
     });
 
-  
+    
     const userModel = mongoose.model('user', userSchema);
 
   
@@ -33,11 +35,11 @@ module.exports = (mongoose) => {
   
     async function bootstrap(count = 10) {
       let l = (await getUsers()).length;
-      console.log("Question collection size from bootstrap():", l);
-  
+      console.log("User collection size from bootstrap():", l);
+  //FOR TESTING ONLY- pre-created users
       if (l === 0) {
         let promises = [];
-        let initQuestions= [
+        let initUsers= [
           {
           username:"krdo", 
           password: "123"
@@ -51,11 +53,27 @@ module.exports = (mongoose) => {
                 password: "789"
             }
             ]
-        for (let i = 0; i < initQuestions.length; i++) {
-          let newUser = new userModel(initQuestions[i]);
-          console.log(i);
+
+        
+
+        initUsers.forEach(async (user, i)=>{
+            const hashedPassword = await new Promise((resolve, reject) => {
+                bcrypt.hash(user.password, 10, function (err, hash) {
+                  if (err) reject(err); else resolve(hash);
+                });
+              });
+
+
+              user.hash = hashedPassword; 
+              delete user.password; 
+
+          let newUser = new userModel(user);
           promises.push(newUser.save());
-        }
+
+
+
+        })
+        
        
         return Promise.all(promises);
       }

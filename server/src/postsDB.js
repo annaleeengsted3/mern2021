@@ -8,6 +8,7 @@ module.exports = (mongoose) => {
     comments: [{
       comment:String,
       author: String,
+      votes: Number,
       date: Date 
       }],
   });
@@ -26,7 +27,7 @@ module.exports = (mongoose) => {
 
       return await postModel.find();
     } catch (error) {
-      console.error("getQuestion:", error.message);
+      console.error("getPosts:", error.message);
       return {};
     }
   }
@@ -44,7 +45,7 @@ module.exports = (mongoose) => {
     try {
       return await postModel.findById(id);
     } catch (error) {
-      console.error("getQuestion:", error.message);
+      console.error("getPost:", error.message);
       return {};
     }
   }
@@ -57,17 +58,16 @@ module.exports = (mongoose) => {
   
 
   async function updatePost(comment) {
-    console.log(comment);
+    console.log("UPDATING POST");
     let postToUpdate =  await postModel.findById(comment._id);
     console.log(postToUpdate);
-   // if(post.votes > 0){
-      //const commentToUpdate =postToUpdate.comments.find(post=> post.comment== post.comment)
-// postToUpdate.votes = post.votes;
-   // } else if(post.votes === 0){
-      //postToUpdate.comments.push({comment: comment.comment, author: comment.author, date: comment.date})
-      
-   // }
-   postToUpdate.comments.push(comment)
+   if(comment.votes > 0){
+      const commentToUpdate =postToUpdate.comments.find(post=> post.comment== post.comment)
+commentToUpdate.votes = comment.votes;
+   } else if(comment.votes === 0){
+      postToUpdate.comments.push(comment)
+   }
+   
     postToUpdate.save();
     return postModel.findById(comment._id);
   }
@@ -75,7 +75,7 @@ module.exports = (mongoose) => {
   async function bootstrap(count = 10) {
     let l = (await getPosts()).length;
     console.log("Question collection size from bootstrap():", l);
-
+//if there are no posts, create test data:
     if (l === 0) {
       let promises = [];
       let initQuestions= [
@@ -85,7 +85,7 @@ module.exports = (mongoose) => {
         author: "lotr123", 
         date: new Date('2020-12-09'),
         votes: 23,
-        comments:[{comment: "omg I can't even", author:"catlover", date: new Date("2020-12-10")}] 
+        comments:[{comment: "omg I can't even", votes: 23, author:"catlover", date: new Date("2020-12-10")}] 
         }, 
         {
         title:"What's going on with all the UFO articles", 
@@ -93,7 +93,7 @@ module.exports = (mongoose) => {
         author: "thetruthisoutthere", 
         date: new Date('2021-01-09'),
         votes: 14,
-        comments:[{comment: "even Obama admitted it", author:"area51", date: new Date("2020-01-10")}] 
+        comments:[{comment: "even Obama admitted it", votes: 13, author:"area51", date: new Date("2020-01-10")}] 
         }, 
           {
             title:"Hehe check out this funny video", 
@@ -101,7 +101,7 @@ module.exports = (mongoose) => {
         author: "notarickroll", 
         date: new Date('2021-03-23'),
         votes: 4,
-        comments:[{comment: "nice", author:"nice123", date: new Date("2020-03-24")}] 
+        comments:[{comment: "nice", author:"nice123", votes: 23, date: new Date("2020-03-24")}] 
           }, 
           {
             title:"Any updates on Tokyo 2021", 
@@ -109,7 +109,7 @@ module.exports = (mongoose) => {
             author: "sportsman", 
             date: new Date('2021-03-23'),
             votes: 2,
-            comments:[{comment: "no idea", author:"nice123", date: new Date("2020-03-24")}] 
+            comments:[{comment: "no idea", author:"nice123", votes: 9, date: new Date("2020-03-24")}] 
           }
           ]
       for (let i = 0; i < initQuestions.length; i++) {
@@ -117,6 +117,13 @@ module.exports = (mongoose) => {
         console.log(i);
         promises.push(newPost.save());
       }
+
+    
+      return Promise.all(promises);
+    }
+  
+    let t = (await getTopics()).length;
+    if(t===0){
       let tv = new topicModel({title: topics[0]});
       tv.save();
       let news = new topicModel({title: topics[1]});
@@ -125,9 +132,8 @@ module.exports = (mongoose) => {
       funny.save();
       let sports = new topicModel({title: topics[3]});
       sports.save();
-      return Promise.all(promises);
+
     }
-  
   }
 
   return {

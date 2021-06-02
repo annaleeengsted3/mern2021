@@ -18,17 +18,22 @@ function App() {
   const [postCount, setPostCount] = useState(0);
   const [btnTxt, setBtnTxt] = useState("Log out");
   const [isLoggedIn, setLoggedIn] = useState(false);
+  // if(authService.loggedIn){
+  //   setLoggedIn(true);
+  // }
+
+
   let username = "Anonymous";
+  const [updatedUser, setUpdatedUser] = useState(username);
 
   
   useEffect(() => {
     const fetchData = async () => {
- console.log("fetch");
- const topicsresponse = await authService.fetch(`${API_URL}/posts/topics`);
- const topicsdata = await topicsresponse.json();
- setTopics(topicsdata);
-
-
+      //fetch topics
+      const topicsresponse = await authService.fetch(`${API_URL}/posts/topics`);
+      const topicsdata = await topicsresponse.json();
+      setTopics(topicsdata);
+      //fetch posts
       const response = await authService.fetch(url);
       const data = await response.json();
       setPosts(data);
@@ -41,8 +46,7 @@ function App() {
     return posts.find(post => post._id == id)
     }
 
-    function addPost(input, event) { 
-      //console.log(input) ;    
+    function addPost(input, event) {     
         fetch(url, {
         method: 'POST', 
         headers: {
@@ -56,56 +60,63 @@ function App() {
         console.log(data);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error('Add post error:', error);
       });
 
       setPostCount(postCount+1);
       }
 
-      // useEffect(() => {
-      //   document.title = `${username} logged in`;
-      // }); 
+      useEffect(() => {
+
+if(isLoggedIn){
+  setUpdatedUser(authService.getUsername());
+  setBtnTxt("Log out");
+}else{
+  setUpdatedUser("Anonymous");
+  setBtnTxt("Log out");
+}
 
 
+      }, [isLoggedIn]); 
 
 
     async function login(username, password) {
       try {
         const resp = await authService.login(username, password);
-        console.log("Authentication:", resp.msg);
-        //setPostCount(p => p + 1);
-        //setUsername(username);
+       console.log("Authentication:", resp.msg); 
         setLoggedIn(true);
       } catch (e) {
         console.log("Login", e);
+
       }
     }
 
   
+  
 
     let topicsMenu = <p>{topics[0]}</p>;
     if (topics.length > 0) {
-      topicsMenu =< ol><li><Link to={`/`}>All Posts</Link></li>{topics.map(topic => <li><Link key={topic.id} to={`/topic/${topic.title}`}>{topic.title}</Link></li>)}</ol>;
+      topicsMenu =< ol><li key={1}><Link to={`/`}>All Posts</Link></li>{topics.map(topic => <li key={topic._id}><Link to={`/topic/${topic.title}`}>{topic.title}</Link></li>)}</ol>;
     }
    
     let loginModule = <Link to={`/login`}>Login Here, {username}!</Link>
     if (authService.loggedIn()) {
-      username = authService.getUsername();
-      loginModule = <div>Logged in as {username}. <button type="button" onClick={function(event){ logout();}}>{btnTxt}</button></div>;
-    } else{
-      username= "Anonymous";
-    }
+username= authService.getUsername()
+     loginModule = <div>Logged in as {username}. <button type="button" onClick={function(event){ logout();}}>{btnTxt}</button></div>;
+  
+    } 
 
     function logout() {
       authService.logout();
-      setBtnTxt("Logged out")
-      console.log("logout");
+      setLoggedIn(false);
       // TO DO, BUG TEST THIS- not 100% air-tight
   }
 
+
+
   return (
     <>
-      <h1>Deddit</h1>
+      <h1>Annalee's Post App</h1>
       
       {/* <Link to={`/login`}>Login Here</Link> */}
       <div className="login">{loginModule}</div>

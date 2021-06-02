@@ -4,12 +4,14 @@ import AuthService from "./AuthService";
 
 export default function AddPost(props) {
   let topics = props.topics;
+  let username = "Anonymous";
   const authService = new AuthService(`${props.url}/users/authenticate`);
   let isLoggedIn = false;
   if(authService.loggedIn()){
     isLoggedIn=true;
+    username = authService.getUsername();
   }
-const [input, setInput] = useState({title:"", topic: "TV", author: "", date: new Date(Date.now()), comments: [], votes: 0});
+const [input, setInput] = useState({title:"", topic: "TV", author: `${username}`, date: new Date(Date.now()), comments: [], votes: 0});
  const [hasAdded, setAdded] = useState(false);
 
 

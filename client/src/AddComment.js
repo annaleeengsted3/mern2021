@@ -7,8 +7,10 @@ export default function AddComment(props) {
     const [comment, setComment] = useState("");
     const [hasAdded, setAdded] = useState(false);
     let isLoggedIn = false;
+    let username = "Anonymous"; //failsafe just in case
   if(authService.loggedIn()){
     isLoggedIn=true;
+    username = authService.getUsername();
   }
 
   let addedPart = <p></p>;

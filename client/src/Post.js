@@ -20,7 +20,7 @@ export default function Post(props){
         return new Date(b.date) - new Date(a.date);
       }).map((comment, index) =>
       <div key={index} className="answer">
-       <Comment comment={comment} post={post} url ={props.url}></Comment>
+       <Comment comment={comment} post={post} url ={props.url} authService={authService}></Comment>
       </div>
       )}</div>
   }
