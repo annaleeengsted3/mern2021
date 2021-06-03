@@ -26,10 +26,29 @@
       this.setUsername(username);
       return json;
     }
+
+
+
+    // async createNewUser(username, password) {
+    //   const res = await this.fetch(this.auth_api_url, {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //       username,
+    //       password
+    //     })
+    //   });
+    //   let json = await res.json();
+    //   if ([401, 404].includes(parseInt(res.status))) {
+    //     throw Error(json.msg);
+    //   }
+    //   this.setToken(json.token);
+    //   this.setUsername(username);
+    //   return json;
+    // }
   
     loggedIn() {
       if(this.getToken()){
-        console.log(jwtDecode(this.getToken()).exp);
+ 
         if (jwtDecode(this.getToken()).exp < Date.now() / 1000) {
           //login anew when token expires
           console.log("Token is expired")
@@ -37,7 +56,7 @@
         } 
             
       }
-      console.log(this.getToken() !== null)
+     
         return (this.getToken() !== null);
       
        

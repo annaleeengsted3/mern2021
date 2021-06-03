@@ -5,35 +5,72 @@ export default function Comment(props){
  const [votes, setVote] = useState(props.comment.votes)
  const [button, setButton] = useState("▲ Upvote")
 
-  useEffect(() => {
-      if(votes!= 0 && props.authService.loggedIn()){
-          const updatedWithVotes ={
-              comment: comment.comment,
-              _id: post._id,
-              votes: votes,
-              author: comment.author,
-              date: comment.date
-          }
-        fetch(`${props.url}/${post._id}`, {
-            method: 'POST', 
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${props.authService.getToken()}`
-            },
-            body: JSON.stringify(updatedWithVotes),
-          })
-          .then(response => console.log(response.json()))
-          .then(data => {
-            //console.log("data: " + data);
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+  // useEffect(() => {
+  //   console.log(votes);
+  //     if(votes!= 0 && props.authService.loggedIn()){
+  //         const updatedWithVotes ={
+  //             comment: comment.comment,
+  //             _id: post._id,
+  //             votes: votes,
+  //             author: comment.author,
+  //             date: comment.date
+  //         }
+  //       fetch(`${props.url}/comment/${post._id}`, {
+  //           method: 'POST', 
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             'Authorization': `Bearer ${props.authService.getToken()}`
+  //           },
+  //           body: JSON.stringify(updatedWithVotes),
+  //         })
+  //         .then(response => console.log(response.json()))
+  //         .then(data => {
+  //           console.log("data: " + data);
+  //         })
+  //         .catch((error) => {
+  //           console.error('Error:', error);
+  //         });
 
-        } else{
+  //       } else{
+  //         console.log("called useeffect but votes is zero");
+  //       }
+  // } );
 
+
+  function updateComment(){
+    
+    console.log(votes);
+    if(props.authService.loggedIn()){
+        const updatedWithVotes ={
+            comment: comment.comment,
+            _postid: post._id,
+            votes: votes+1,
+            author: comment.author,
+            date: comment.date
         }
-  });
+        console.log(updatedWithVotes.votes);
+      fetch(`${props.url}/comment/${post._id}`, {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${props.authService.getToken()}`
+          },
+          body: JSON.stringify(updatedWithVotes),
+        })
+        .then(response => console.log(response.json()))
+        .then(data => {
+          console.log("data: " + data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+
+      } else{
+        console.log("called useeffect but votes is zero");
+      }
+
+
+  }
 
 
 
@@ -42,7 +79,7 @@ export default function Comment(props){
   } else return (
         <>
            <p>{comment.author + ", " + comment.date}: "{comment.comment}"</p>
-           <p><button type="button" onClick={function(event){ if(props.authService.loggedIn()){setVote(votes + 1)}else{setButton("Please login to vote")}}}>{button}</button><span className="italic votes">{votes}</span></p>
+           <p><button type="button" onClick={function(event){ if(props.authService.loggedIn()){setVote(votes+1); updateComment();}else{setButton("Please login to vote")}}}>{button}</button><span className="italic votes">{votes}</span></p>
 </>
       );
     }

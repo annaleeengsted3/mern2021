@@ -4,6 +4,7 @@ import Posts from "./Posts"
 import Post from "./Post"
 import AddPost from "./AddPost"
 import Login from "./Login"
+import CreateNewUser from "./CreateNewUser"
 import AuthService from "./AuthService";
 import { Link } from "@reach/router";
 
@@ -109,7 +110,7 @@ username= authService.getUsername()
     function logout() {
       authService.logout();
       setLoggedIn(false);
-      // TO DO, BUG TEST THIS- not 100% air-tight
+      // TO DO, BUG TEST THIS- not 100% air-tight in terms of UI
   }
 
 
@@ -117,17 +118,14 @@ username= authService.getUsername()
   return (
     <>
       <h1>Annalee's Post App</h1>
-      
-      {/* <Link to={`/login`}>Login Here</Link> */}
       <div className="login">{loginModule}</div>
       {topicsMenu}
         <Link to={`/add_post`}>Add Post</Link>
       <Router>
       <Login path="/login" login={login} url={API_URL} ></Login>
-          <Posts path="/" posts={posts} url={url} getPost={getPost} setPosts={setPosts}> </Posts>
-          <Posts path="/topic/:topic" posts={posts} url={url} getPost={getPost} setPosts={setPosts}> </Posts>
-       
-      
+      <CreateNewUser path="/newuser" url={API_URL} ></CreateNewUser>
+          <Posts path="/" posts={posts} url={url} getPost={getPost} setPosts={setPosts} authService={authService}> </Posts>
+          <Posts path="/topic/:topic" posts={posts} url={url} getPost={getPost} setPosts={setPosts} authService={authService}> </Posts>
           <AddPost path="/add_post" addPost={addPost} topics= {topics} url={API_URL}></AddPost>
       <Post path="/:_id" getPost={getPost} url={url} apiurl={API_URL}></Post>
     

@@ -37,17 +37,15 @@ async function createServer() {
 
 
 // Open paths that do not need login.
-// You can use various formats to define the open paths.
 const openPaths = [
   // Open "/api/users/authenticate" for POST requests
   { url: "/api/users/authenticate", methods: ["POST"] },
-  { url: "/api/users/", methods: ["GET"] },
+  { url: "/api/users/", methods: ["GET", "POST"] }, //make a safer way for none users to create new user?
   { url: "/api/posts/:id", methods: ["POST"] },
-//open for updating comment votes
+//open for updating comment votes, TO DO: fix security here 
   // Open everything that doesn't begin with "/api"
   /^(?!\/api).*/gim,
 
-  // Open all GET requests on the form "/api/posts/*" using a regular expression
   { url: /\/api\/posts\.*/gim, methods: ["GET"] },
   { url: /\/api\/topics\.*/gim, methods: ["GET"] }
   

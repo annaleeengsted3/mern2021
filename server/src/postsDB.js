@@ -51,25 +51,42 @@ module.exports = (mongoose) => {
   }
 
   async function createPost(post) {
-    console.log(post);
+  
     let newPost = new postModel(post);
     return newPost.save();
   }
   
 
-  async function updatePost(comment) {
-    console.log("UPDATING POST");
-    let postToUpdate =  await postModel.findById(comment._id);
+  async function updateComments(comment) {
+    console.log(comment);
+    
+    let postToUpdate =  await postModel.findById(comment._postid);
     console.log(postToUpdate);
    if(comment.votes > 0){
-      const commentToUpdate =postToUpdate.comments.find(post=> post.comment== post.comment)
+      const commentToUpdate =postToUpdate.comments.find(post=> post.comment== comment.comment);
+      console.log(commentToUpdate);
 commentToUpdate.votes = comment.votes;
+console.log(commentToUpdate);
    } else if(comment.votes === 0){
-      postToUpdate.comments.push(comment)
+      postToUpdate.comments.push({comment: comment.comment, author: comment.author, votes: comment.votes, date: comment.date})
    }
-   
+   console.log(postToUpdate);
     postToUpdate.save();
-    return postModel.findById(comment._id);
+    return postModel.findById(comment._postid);
+  }
+
+
+
+  async function updatePost(post) {
+    console.log("update post is called, post:");
+    console.log(post);
+    let postToUpdate =  await postModel.findById(post._id);
+    console.log(postToUpdate);
+postToUpdate.votes = post.votes;
+console.log(postToUpdate);
+
+    postToUpdate.save();
+    return postModel.findById(post._id);
   }
 
   async function bootstrap(count = 10) {
@@ -141,6 +158,7 @@ commentToUpdate.votes = comment.votes;
     getTopics: getTopics,
     getPost: getPost,
     createPost: createPost,
+    updateComments: updateComments,
     updatePost: updatePost,
     bootstrap
   }

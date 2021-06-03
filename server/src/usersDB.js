@@ -19,6 +19,27 @@ module.exports = (mongoose) => {
         return {};
       }
     }
+
+
+    async function createUser(username, password) {
+      console.log("creating user");
+      console.log(username + "," + password);
+      try {
+        const hashedPassword = await new Promise((resolve, reject) => {
+          bcrypt.hash(password, 10, function (err, hash) {
+            if (err) reject(err); else resolve(hash);
+          });
+        });
+
+        let newUser = new userModel({username: username, hash: hashedPassword});
+        console.log("just before save");
+        return newUser.save();
+
+      } catch (error) {
+        console.error("createUser:", error.message);
+        return {};
+      }
+    }
     
   
 //     async function updatePost(post) {
@@ -82,6 +103,7 @@ module.exports = (mongoose) => {
   
     return {
       getUsers: getUsers,
+      createUser: createUser,
       bootstrap
     }
   }

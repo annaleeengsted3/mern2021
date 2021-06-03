@@ -32,7 +32,11 @@ if(!authService.loggedIn()){
         type="button"
         onClick={() => onSubmit()}>Login!
       </button>
-
+      <br></br>
+      <br></br>
+      <Link to="/newuser">Create new user</Link>
+      <br></br>
+      <br></br>
       <button><Link to="/">Back</Link></button>
     </>
   );

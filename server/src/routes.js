@@ -19,10 +19,15 @@ module.exports = (postsDB) => {
   });
 
 
-  router.post('/:_id', async (req, res) => {
-   const post = await postsDB.updatePost(req.body);
+  router.post('/comment/:_id', async (req, res) => {
+   const post = await postsDB.updateComments(req.body);
     res.json(post);
   });
+
+  router.post('/post/:_id', async (req, res) => {
+    const post = await postsDB.updatePost(req.body);
+     res.json(post);
+   });
 
   router.post('/', async (req, res) => {
     // const post = await postsDB.createPost({title: req.body.title, topic: req.body.topic, author: req.body.author, date: req.body.date, comments: req.body.comments});

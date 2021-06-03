@@ -11,13 +11,13 @@ export default function Post(props){
   const [count, setCount] = useState(0);
   const [comments, setComments] = useState([]);
 
-  let submitted= <p></p>
-  submitted= <p>Your comment has been submitted!</p>
+  // let submitted= <p></p>
+  // submitted= <p>Your comment has been submitted!</p>
   
   let commentsmarkup= <p></p>
   if (post){
     commentsmarkup= <div> {post.comments.sort(function(a,b){
-        return new Date(b.date) - new Date(a.date);
+        return new Date(b.votes) - new Date(a.votes);
       }).map((comment, index) =>
       <div key={index} className="answer">
        <Comment comment={comment} post={post} url ={props.url} authService={authService}></Comment>
@@ -50,9 +50,10 @@ export default function Post(props){
 //   }, [count]);
 
 function addComment(comment, id) { 
-    
-    const bodyData= {comment: comment, _id: id, author: "Anonymous", date: new Date(Date.now())}
-    fetch(`${props.url}/${id}`, {
+    let author = authService.getUsername();
+  
+    const bodyData= {comment: comment, _postid: id, author: author, votes: 0, date: new Date(Date.now())}
+    fetch(`${props.url}/comment/${id}`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
@@ -80,6 +81,7 @@ function addComment(comment, id) {
           <h1>{post.title}</h1>
         <div>
                      <p><span className="italic">Comments: {post.comments.length}</span></p>
+            
                  </div>
           </article>
         <section>
