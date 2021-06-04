@@ -41,18 +41,7 @@ module.exports = (mongoose) => {
       }
     }
     
-  
-//     async function updatePost(post) {
-//       let postToUpdate =  await userModel.findById(post._id);
-//       if(post.votes > 0){
-//         const answerToUpdate =postToUpdate.answers.find(answer=> answer.answer== post.answer)
-//   answerToUpdate.votes = post.votes;
-//       } else if(post.votes === 0){
-//         postToUpdate.answers.push({answer: post.answer, votes: post.votes})
-//       }
-//       postToUpdate.save();
-//       return userModel.findById(post._id);
-//     }
+
   
     async function bootstrap(count = 10) {
       let l = (await getUsers()).length;
