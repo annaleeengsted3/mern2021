@@ -37,7 +37,6 @@ function App() {
       const response = await authService.fetch(url);
       const data = await response.json();
       setPosts(data);
-     console.log("fetch hook");
     };
     fetchData();
   }, [postCount]); 
