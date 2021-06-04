@@ -84,9 +84,11 @@ if(isLoggedIn){
         const resp = await authService.login(username, password);
        console.log("Authentication:", resp.msg); 
         setLoggedIn(true);
+        
       } catch (e) {
         console.log("Login", e);
-
+        //TODO: fix this, temporary error message
+window.alert("Login " + e)
       }
     }
 

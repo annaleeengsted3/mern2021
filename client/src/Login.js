@@ -8,11 +8,7 @@ function Login(props) {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // let loginPart = <Login login={login}></Login>;
-    // if (authService.loggedIn()) {
-    //   loginPart = "Logged in as!";
-    // }
+let errorMsg = "";
 
   function onSubmit() {
     console.log(username, password);
@@ -32,6 +28,7 @@ if(!authService.loggedIn()){
         type="button"
         onClick={() => onSubmit()}>Login!
       </button>
+      <p>{errorMsg}</p>
       <br></br>
       <br></br>
       <Link to="/newuser">Create new user</Link>
