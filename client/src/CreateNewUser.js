@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Link } from "@reach/router";
 
 function CreateNewUser(props) {
-  const {login} = props;
   const authService = new AuthService(`${props.url}/users/authenticate`);
 
   const [newUsername, setNewUsername] = useState("");
@@ -24,7 +23,7 @@ function CreateNewUser(props) {
           });
         const data = await response.json();
         console.log(data.msg);
-        if(data.msg == undefined){
+        if(data.msg === undefined){
             setUserMessage("New user created! Login to post and comment");
 
         }else{

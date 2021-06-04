@@ -29,22 +29,6 @@
 
 
 
-    // async createNewUser(username, password) {
-    //   const res = await this.fetch(this.auth_api_url, {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       username,
-    //       password
-    //     })
-    //   });
-    //   let json = await res.json();
-    //   if ([401, 404].includes(parseInt(res.status))) {
-    //     throw Error(json.msg);
-    //   }
-    //   this.setToken(json.token);
-    //   this.setUsername(username);
-    //   return json;
-    // }
   
     loggedIn() {
       if(this.getToken()){

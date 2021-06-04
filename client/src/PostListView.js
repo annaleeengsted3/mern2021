@@ -10,7 +10,7 @@ export default function PostListView(props){
 
 
     useEffect(() => {
-        if(post.votes != postVotes){
+        if(post.votes !== postVotes){
             console.log("postvotes NOT equal");
             const updatedWithVotes ={
                 title: post.comment,
@@ -31,7 +31,7 @@ export default function PostListView(props){
             })
             .then(response => console.log(response.json()))
             .then(data => {
-              //console.log("data: " + data);
+              console.log("data: " + data);
             })
             .catch((error) => {
               console.error('Error:', error);

@@ -18,14 +18,13 @@ function App() {
   const [topics, setTopics] = useState([]);
   const [postCount, setPostCount] = useState(0);
   const [btnTxt, setBtnTxt] = useState("Log out");
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  // if(authService.loggedIn){
-  //   setLoggedIn(true);
-  // }
+  const [isLoggedIn, setLoggedIn] = useState(authService.loggedIn());
+
 
 
   let username = "Anonymous";
-  const [updatedUser, setUpdatedUser] = useState(username);
+  //const [updatedUser, setUpdatedUser] = useState(username);
+  const [updatedUser, setUpdatedUser] = useState("Anonymous");
 
   
   useEffect(() => {
@@ -38,7 +37,7 @@ function App() {
       const response = await authService.fetch(url);
       const data = await response.json();
       setPosts(data);
-     
+     console.log("fetch hook");
     };
     fetchData();
   }, [postCount]); 
@@ -102,15 +101,15 @@ if(isLoggedIn){
    
     let loginModule = <Link to={`/login`}>Login Here, {username}!</Link>
     if (authService.loggedIn()) {
-username= authService.getUsername()
-     loginModule = <div>Logged in as {username}. <button type="button" onClick={function(event){ logout();}}>{btnTxt}</button></div>;
+
+     loginModule = <div>Logged in as {updatedUser}. <button type="button" onClick={function(event){ logout();}}>{btnTxt}</button></div>;
   
     } 
 
     function logout() {
       authService.logout();
       setLoggedIn(false);
-      // TO DO, BUG TEST THIS- not 100% air-tight in terms of UI
+      // TO DO, BUG TEST THIS- sometimes have to reload to get correct UI
   }
 
 

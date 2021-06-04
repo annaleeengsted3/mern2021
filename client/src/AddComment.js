@@ -7,10 +7,10 @@ export default function AddComment(props) {
     const [comment, setComment] = useState("");
     const [hasAdded, setAdded] = useState(false);
     let isLoggedIn = false;
-    let username = "Anonymous"; //failsafe just in case
+ 
   if(authService.loggedIn()){
     isLoggedIn=true;
-    username = authService.getUsername();
+  
   }
 
   let addedPart = <p></p>;
@@ -31,8 +31,7 @@ export default function AddComment(props) {
           }
         } />
      
-      {/* <button type="button" onClick={(event) => props.addComment(comment, id)}>Add Answer</button> */}
-      <button type="button" onClick={function(event){ props.addComment(comment, id); props.setCount(c=>c+1); setAdded(true)} }>Add Comment</button>
+      <button type="button" onClick={function(event){ if(isLoggedIn){props.addComment(comment, id)}; setAdded(true)} }>Add Comment</button>
      
     </form>
       {addedPart}

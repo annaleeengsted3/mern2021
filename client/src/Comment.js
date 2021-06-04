@@ -1,40 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 export default function Comment(props){
   let comment= props.comment;
   const post = props.post;
  const [votes, setVote] = useState(props.comment.votes)
  const [button, setButton] = useState("▲ Upvote")
 
-  // useEffect(() => {
-  //   console.log(votes);
-  //     if(votes!= 0 && props.authService.loggedIn()){
-  //         const updatedWithVotes ={
-  //             comment: comment.comment,
-  //             _id: post._id,
-  //             votes: votes,
-  //             author: comment.author,
-  //             date: comment.date
-  //         }
-  //       fetch(`${props.url}/comment/${post._id}`, {
-  //           method: 'POST', 
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             'Authorization': `Bearer ${props.authService.getToken()}`
-  //           },
-  //           body: JSON.stringify(updatedWithVotes),
-  //         })
-  //         .then(response => console.log(response.json()))
-  //         .then(data => {
-  //           console.log("data: " + data);
-  //         })
-  //         .catch((error) => {
-  //           console.error('Error:', error);
-  //         });
-
-  //       } else{
-  //         console.log("called useeffect but votes is zero");
-  //       }
-  // } );
 
 
   function updateComment(){

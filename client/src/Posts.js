@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Link } from "@reach/router";
+import React from 'react';
 import PostListView from './PostListView';
 
 
 export default function Posts(props){
     let shownPosts = props.posts;
-    if(props.topic == undefined){
+    if(props.topic === undefined){
       shownPosts= props.posts.sort(function(a,b){
         return new Date(b.votes) - new Date(a.votes);
       });
@@ -19,7 +18,7 @@ export default function Posts(props){
 
     function filterPosts(i){
       return props.posts.filter(post => {
-         if (post.topic == i) {
+         if (post.topic === i) {
           return true;
          } else {
            return false;
