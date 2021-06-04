@@ -1,7 +1,0 @@
-Name: Annalee Engsted
-Class: WU-E20s - 2. semester Advanced Web Programming
-Heroku app: https://awp-question-app.herokuapp.com/
-Github repo: https://github.com/annaleeengsted3/MERN-stack-app
-
-Be aware: when adding questions and answers you need to reload
-
