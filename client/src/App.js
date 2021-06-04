@@ -97,7 +97,7 @@ if(isLoggedIn){
 
     let topicsMenu = <p>{topics[0]}</p>;
     if (topics.length > 0) {
-      topicsMenu =< ol><li key={1}><Link to={`/`}>All Posts</Link></li>{topics.map(topic => <li key={topic._id}><Link to={`/topic/${topic.title}`}>{topic.title}</Link></li>)}</ol>;
+      topicsMenu =< div className="topics"><div key={1}><Link to={`/`}>All Posts</Link></div>{topics.map(topic => <div key={topic._id}><Link to={`/topic/${topic.title}`}>{topic.title}</Link></div>)}</div>;
     }
    
     let loginModule = <Link to={`/login`}>Login Here, {username}!</Link>
@@ -117,10 +117,12 @@ username= authService.getUsername()
 
   return (
     <>
-      <h1>Annalee's Post App</h1>
-      <div className="login">{loginModule}</div>
-      {topicsMenu}
+    <div className="header"><h1>Annalee's Post App</h1>
         <Link to={`/add_post`}>Add Post</Link>
+      <div className="login">{loginModule}</div>
+    </div>
+      
+      {topicsMenu}
       <Router>
       <Login path="/login" login={login} url={API_URL} ></Login>
       <CreateNewUser path="/newuser" url={API_URL} ></CreateNewUser>

@@ -48,6 +48,10 @@ margin: 5vw;
     font-style: italic;
 }
 
+.bold{
+    font-weight: 700;
+}
+
 .votes::before{
     content: "▲";
     margin-right: 6px;
@@ -55,4 +59,17 @@ margin: 5vw;
 
 .votes{
     color: green;
+}
+
+.topics, .header{
+
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2vw;
+}
+
+.header{
+    justify-content: space-between;
+    align-items: center;
+   
 }

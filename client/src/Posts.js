@@ -34,6 +34,7 @@ export default function Posts(props){
                {props.loggedIn}
                 {shownPosts.slice(0,15).map((post, index) =>
                   <article key={index}>
+                    <span>{index+1}</span>
                     <PostListView post={post} authService={props.authService} url={props.url}></PostListView>
                   </article>)}
               </section>

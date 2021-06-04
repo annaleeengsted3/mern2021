@@ -27,16 +27,7 @@ setInput({
 }
 
 let addedPart = <p></p>;
-//  useEffect(() => {
-//   // checkLoggedStatus();
-//   document.title = `${hasAdded} logged in`;
-//   if(props.isLoggedIn){
-//     addedPart = <p>Your post has been added!</p>
-//   } else if(!props.isLoggedIn){
-//     addedPart = <p>Please login to post</p>
-//   }
 
-//       }, [hasAdded]); 
 
 
   if(hasAdded && isLoggedIn){
@@ -46,9 +37,7 @@ let addedPart = <p></p>;
   }
 
 
-// if(hasAdded){
-//   addedPart = <p>Your post has been added!</p>
-// }
+
   return (
     <section className="ask">
     <h3>Create a post for the forum!</h3>
